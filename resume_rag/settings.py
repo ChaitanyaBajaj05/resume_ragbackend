@@ -21,13 +21,15 @@ load_dotenv()
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
+CSRF_TRUSTED_ORIGINS = ['https://resume-ragbackend.onrender.com']
 
 # -------------------------
 # Security
 # -------------------------
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "0") == "1"
-ALLOWED_HOSTS = ['resume-ragbackend.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['resume-ragbackend.onrender.com', 'localhost', '127.0.0.1', '.onrender.com']
+
 
 
 # -------------------------
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
 # -------------------------
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files in production
+    'corsheaders.middleware.CorsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -156,7 +159,9 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     "idempotency-key",
 ]
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if os.getenv("CORS_ALLOWED_ORIGINS") else []
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
 
 # -------------------------

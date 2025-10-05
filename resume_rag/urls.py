@@ -11,6 +11,8 @@ def health(request):
     return Response({"status":"ok"})
 
 urlpatterns = [
+    path('', health),
+    path('health/', health),
     path("admin/", admin.site.urls),
     path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
