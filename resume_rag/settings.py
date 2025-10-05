@@ -160,9 +160,11 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost:5173",  # local dev
+    "https://resume-rag-chi.vercel.app",  # replace with your Vercel url
 ]
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only allow all origins in development
+
+CORS_ALLOW_ALL_ORIGINS = DEBUG 
 
 # -------------------------
 # Default primary key
