@@ -14,6 +14,8 @@ from .utils import query_index
 
 User = get_user_model()
 
+import logging
+logger = logging.getLogger(__name__)
 
 class RegisterView(APIView):
     permission_classes = []
@@ -37,33 +39,44 @@ class ResumeUploadView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self, request):
+        logger.info("Upload request received")
         file = request.FILES.get("file")
-        owner_id = request.data.get("owner_id")
         if not file:
-            return Response({"error": {"code": "FIELD_REQUIRED", "field": "file", "message": "file required"}}, status=400)
-        resume = Resume.objects.create(filename=file.name, original_file=file, status="processing")
-        if owner_id:
-            try:
-                user = User.objects.get(id=owner_id)
-                resume.owner = user
-                resume.save()
-            except User.DoesNotExist:
-                pass
+            logger.error("Upload failed: No file in request")
+            return Response({"error": "File required"}, status=400)
+        
         try:
+            resume = Resume.objects.create(filename=file.name, original_file=file, status="processing")
+            logger.info(f"Resume created with id {resume.id}")
+            
+            owner_id = request.data.get("owner_id")
+            if owner_id:
+                try:
+                    user = User.objects.get(id=owner_id)
+                    resume.owner = user
+                    resume.save()
+                    logger.info(f"Owner assigned: {user.id}")
+                except User.DoesNotExist:
+                    logger.warning(f"Owner id {owner_id} does not exist")
+            
             process_resume_sync(str(resume.id))
-        except Exception:
-            resume.status = "failed"
-            resume.save()
-        key = request.headers.get("Idempotency-Key")
-        if key:
-            try:
+            logger.info("Resume processing started")
+            
+            key = request.headers.get("Idempotency-Key")
+            if key:
                 ik = IdempotencyKey.objects.filter(key=key).first()
                 if ik:
                     ik.response_body = {"id": str(resume.id), "filename": resume.filename, "status": resume.status}
                     ik.save()
-            except Exception:
-                pass
-        return Response({"id": str(resume.id), "filename": resume.filename, "status": resume.status}, status=202)
+                    logger.info(f"Idempotency key {key} updated")
+            
+            return Response({"id": str(resume.id), "filename": resume.filename, "status": resume.status}, status=202)
+        
+        except Exception as ex:
+            logger.error(f"Error during resume upload: {ex}", exc_info=True)
+            resume.status = "failed"
+            resume.save()
+            return Response({"error": "Internal server error"}, status=500)
 
 
 class ResumeListView(generics.ListAPIView):
