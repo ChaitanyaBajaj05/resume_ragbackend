@@ -163,7 +163,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://resume-rag-ecru.vercel.app",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 # -------------------------
 # Default primary key
