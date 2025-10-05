@@ -161,6 +161,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # local dev
     "https://resume-rag-ecru.vercel.app",
+    "https://resume-rag-chaitanya-bajajs-projects.vercel.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
