@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: resume-api
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    branches:
+      production:
+        autoDeploy: true
+      staging:
+        autoDeploy: false
