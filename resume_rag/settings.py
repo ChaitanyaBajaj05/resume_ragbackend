@@ -51,11 +51,11 @@ INSTALLED_APPS = [
 # Middleware
 # -------------------------
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    "django.middleware.common.CommonMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files in production
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -163,7 +163,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://resume-rag-ecru.vercel.app",
 ]
 
-CORS_ALLOW_ALL_ORIGINS = DEBUG 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # -------------------------
 # Default primary key
