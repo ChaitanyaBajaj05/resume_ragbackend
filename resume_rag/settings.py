@@ -52,10 +52,9 @@ INSTALLED_APPS = [
 # -------------------------
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files in production
-    'corsheaders.middleware.CorsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -161,7 +160,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # local dev
-    "https://resume-rag-ecru.vercel.app/",
+    "https://resume-rag-ecru.vercel.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG 
