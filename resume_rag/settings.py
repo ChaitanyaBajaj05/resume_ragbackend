@@ -162,10 +162,25 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # local dev
     "https://resume-rag-ecru.vercel.app",
     "https://resume-rag-chaitanya-bajajs-projects.vercel.app",
+    "https://resume-5iwvs59ef-chaitanya-bajajs-projects.vercel.app",  # ADD THIS
 ]
 
-CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",  # Allows all Vercel deployments
+]
 
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
 # -------------------------
 # Default primary key
 # -------------------------
